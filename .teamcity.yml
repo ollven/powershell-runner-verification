@@ -9,3 +9,122 @@ jobs:
         script-mode:
           file:
             path: scripts/elevated-check.ps1
+
+  ExitCodeSuccess:
+    name: Exit code - success
+    steps:
+      - type: powershell
+        script-mode:
+          file:
+            path: scripts/exit-code-success.ps1
+
+  ExitCodeFailure:
+    name: Exit code - explicit failure
+    steps:
+      - type: powershell
+        script-mode:
+          file:
+            path: scripts/exit-code-failure.ps1
+
+  ExitCodeSilentFailure:
+    name: Exit code - silent failure (caught exception, no exit call)
+    steps:
+      - type: powershell
+        script-mode:
+          file:
+            path: scripts/exit-code-silent-failure.ps1
+
+  StderrAsWarning:
+    name: Stderr output - formatted as warning (default)
+    steps:
+      - type: powershell
+        format-stderr-as-error: false
+        script-mode:
+          file:
+            path: scripts/stderr-output.ps1
+
+  StderrAsError:
+    name: Stderr output - formatted as error
+    steps:
+      - type: powershell
+        format-stderr-as-error: true
+        script-mode:
+          file:
+            path: scripts/stderr-output.ps1
+
+  ScriptArguments:
+    name: Script arguments
+    steps:
+      - type: powershell
+        script-mode:
+          file:
+            path: scripts/script-arguments.ps1
+        script-args: -name %env.USERNAME% -buildNumber %build.number%
+
+  VersionBitnessDesktopX64:
+    name: Version bitness - Desktop edition, x64
+    steps:
+      - type: powershell
+        platform: x64
+        edition: desktop
+        min-required-version: '5.1'
+        script-mode:
+          file:
+            path: scripts/version-bitness-info.ps1
+
+  VersionBitnessCoreX64:
+    name: Version bitness - Core edition, x64 (pwsh 7)
+    steps:
+      - type: powershell
+        platform: x64
+        edition: core
+        min-required-version: '7'
+        script-mode:
+          file:
+            path: scripts/version-bitness-info.ps1
+
+  WorkingDirectoryCheck:
+    name: Working directory
+    steps:
+      - type: powershell
+        working-directory: scripts
+        script-mode:
+          file:
+            path: scripts/working-directory-check.ps1
+
+  EncodingTest:
+    name: Encoding - UTF-8 non-ASCII output
+    parameters:
+      teamcity.runner.commandline.stdstreams.encoding: UTF-8
+    steps:
+      - type: powershell
+        script-mode:
+          file:
+            path: scripts/encoding-test.ps1
+
+  ServiceMessageTest:
+    name: TeamCity service messages via Write-Host
+    steps:
+      - type: powershell
+        script-mode:
+          file:
+            path: scripts/teamcity-service-message.ps1
+
+  ScriptExecModeStdin:
+    name: Script exec mode - stdin (-Command)
+    steps:
+      - type: powershell
+        script-exec-mode: stdin
+        script-mode:
+          file:
+            path: scripts/exit-code-success.ps1
+
+  InlineScriptSource:
+    name: Inline script source (not a file)
+    steps:
+      - type: powershell
+        script-mode:
+          script:
+            content: |
+              Write-Host "Running from inline source content"
+              Write-Host "build.number = %build.number%"
