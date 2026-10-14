@@ -1,0 +1,11 @@
+jobs:
+  Job1:
+    name: Job 1
+    steps:
+      - type: powershell
+        min-required-version: '5'
+        platform: x64
+        edition: any
+        script-mode:
+          file:
+            path: scripts/elevated-check.ps1
