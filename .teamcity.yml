@@ -9,7 +9,6 @@ jobs:
         script-mode:
           file:
             path: scripts/elevated-check.ps1
-
   ExitCodeSuccess:
     name: Exit code - success
     steps:
@@ -17,7 +16,6 @@ jobs:
         script-mode:
           file:
             path: scripts/exit-code-success.ps1
-
   ExitCodeFailure:
     name: Exit code - explicit failure
     steps:
@@ -25,7 +23,6 @@ jobs:
         script-mode:
           file:
             path: scripts/exit-code-failure.ps1
-
   ExitCodeSilentFailure:
     name: Exit code - silent failure (caught exception, no exit call)
     steps:
@@ -33,7 +30,7 @@ jobs:
         script-mode:
           file:
             path: scripts/exit-code-silent-failure.ps1
-
+        format-stderr-as-error: true
   StderrAsWarning:
     name: Stderr output - formatted as warning (default)
     steps:
@@ -42,7 +39,6 @@ jobs:
         script-mode:
           file:
             path: scripts/stderr-output.ps1
-
   StderrAsError:
     name: Stderr output - formatted as error
     steps:
@@ -51,7 +47,6 @@ jobs:
         script-mode:
           file:
             path: scripts/stderr-output.ps1
-
   ScriptArguments:
     name: Script arguments
     steps:
@@ -60,7 +55,6 @@ jobs:
           file:
             path: scripts/script-arguments.ps1
         script-args: -name %env.USERNAME% -buildNumber %build.number%
-
   VersionBitnessDesktopX64:
     name: Version bitness - Desktop edition, x64
     steps:
@@ -71,7 +65,6 @@ jobs:
         script-mode:
           file:
             path: scripts/version-bitness-info.ps1
-
   VersionBitnessCoreX64:
     name: Version bitness - Core edition, x64 (pwsh 7)
     steps:
@@ -82,7 +75,6 @@ jobs:
         script-mode:
           file:
             path: scripts/version-bitness-info.ps1
-
   WorkingDirectoryCheck:
     name: Working directory
     steps:
@@ -91,7 +83,6 @@ jobs:
         script-mode:
           file:
             path: scripts/working-directory-check.ps1
-
   EncodingTest:
     name: Encoding - UTF-8 non-ASCII output
     parameters:
@@ -101,7 +92,6 @@ jobs:
         script-mode:
           file:
             path: scripts/encoding-test.ps1
-
   ServiceMessageTest:
     name: TeamCity service messages via Write-Host
     steps:
@@ -109,7 +99,6 @@ jobs:
         script-mode:
           file:
             path: scripts/teamcity-service-message.ps1
-
   ScriptExecModeStdin:
     name: Script exec mode - stdin (-Command)
     steps:
@@ -118,13 +107,12 @@ jobs:
         script-mode:
           file:
             path: scripts/exit-code-success.ps1
-
   InlineScriptSource:
     name: Inline script source (not a file)
     steps:
       - type: powershell
         script-mode:
           script:
-            content: |
+            content: |-
               Write-Host "Running from inline source content"
               Write-Host "build.number = %build.number%"
